@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background 1s ease;
+        }
+
+        body.celebration {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            transition: all 1s ease;
+        }
+
+        .container.hide {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+
+        .heart {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .message {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 40px;
+            min-height: 35px;
+            transition: all 0.3s ease;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 80px;
+            padding: 20px;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c06c84 100%);
+            color: white;
+            position: relative;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        #noBtn {
+            background: #e0e0e0;
+            color: #666;
+            transition: all 0.3s ease;
+            z-index: 1;
+            cursor: default;
+        }
+        
+        #noBtn.floating {
+            position: fixed;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 30px;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Celebration Styles */
+        .celebration-container {
+            text-align: center;
+            color: white;
+            z-index: 10;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .celebration-container.show {
+            opacity: 1;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .big-heart {
+            font-size: 80px;
+            animation: heartPulse 1s ease-in-out infinite;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .celebration-container h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .love-message {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .special-note {
+            font-size: 1em;
+            font-style: italic;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInLate 1s ease-in 1.5s both;
+        }
+
+        @keyframes fadeInLate {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .falling-heart {
+            position: fixed;
+            font-size: 40px;
+            animation: heartFall linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes heartFall {
+            to {
+                transform: translateY(100vh) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnimation linear forwards;
+            box-shadow: 0 0 10px white;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .rotating-hearts {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .rotating-hearts.show {
+            opacity: 1;
+        }
+
+        .rotating-hearts span {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.3;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 25px;
+            }
+            h1 {
+                font-size: 1.6em;
+            }
+            .message {
+                font-size: 1em;
+            }
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+            .heart {
+                font-size: 50px;
+            }
+            .celebration-container h1 {
+                font-size: 2em;
+            }
+            .love-message {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="rotating-hearts" id="rotatingHearts"></div>
+    
+    <div class="container" id="questionContainer">
+        <div class="heart">💝</div>
+        <h1>Will you be my Valentine?</h1>
+        <p class="message" id="message">I'll watch your favorite movies with you! 🎬</p>
+        
+        <div class="button-container" id="buttonContainer">
+            <button id="yesBtn">Yes! 💖</button>
+            <button id="noBtn">No</button>
+        </div>
+    </div>
+
+    <div class="celebration-container" id="celebrationContainer">
+        <div class="big-heart">❤️</div>
+        <h1>Yay! You said YES! 🎉</h1>
+        <div class="love-message">
+            My dearest love,<br><br>
+            I knew you couldn't resist! 😊 You've made this Valentine's Day absolutely perfect. 
+            Every moment with you is a treasure, and I'm so grateful to have you as my Valentine 
+            today and every day. You make my heart smile, my world brighter, and my life complete.<br><br>
+            I love you more than words can express, more than all the stars in the sky, 
+            and more than all the chocolate in the world! 🍫✨<br><br>
+            Here's to us, to our love, and to many more beautiful moments together! 💕
+        </div>
+        <div class="special-note">
+            Forever yours, with all my love 💖<br>
+            Happy Valentine's Day, my darling! 🌹
+        </div>
+    </div>
+
+    <script>
+        const messages = [
+            "I'll watch your favorite movies with you! 🎬",
+            "Are you sure? I'll make you breakfast in bed! 🥞",
+            "But I already bought chocolate! 🍫",
+            "Please? I'll give you endless hugs! 🤗",
+            "Think of all our amazing memories together! 💑",
+            "Come on, you know you want to say yes! 😊",
+            "I'll be the best Valentine ever! 🌟",
+            "My heart belongs only to you! ❤️",
+            "Just click yes, you won't regret it! 😘",
+            "I'll cook your favorite dinner! 🍝",
+            "We could cuddle all day! 🥰",
+            "Pretty please with a cherry on top? 🍒",
+            "You're making this harder than it needs to be! 😅",
+            "I love you more than pizza! 🍕",
+            "Just one little click on YES! That's all! 👆",
+            "The YES button is looking so lonely! 💔",
+            "Your finger is getting tired, just click YES! 😉",
+            "Fine, I'll throw in unlimited kisses too! 💋",
+            "This could go on forever... or you could just say YES! ⏰",
+            "I promise to love you forever! 💕"
+        ];
+
+        const noButtonTexts = [
+            "No",
+            "Are you sure?",
+            "Really?",
+            "Think again!",
+            "Last chance!",
+            "Surely not?",
+            "You might regret this!",
+            "Give it another thought!",
+            "Are you certain?",
+            "This is a mistake!",
+            "Don't do this!",
+            "Think twice!",
+            "Reconsider!",
+            "Absolutely not?",
+            "Final answer?",
+            "You're breaking my heart!",
+            "Please reconsider!",
+            "No way!",
+            "Not a chance?",
+            "Nooo!"
+        ];
+
+        let messageIndex = 0;
+        let noClickCount = 0;
+        
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const messageEl = document.getElementById('message');
+        const buttonContainer = document.getElementById('buttonContainer');
+        const questionContainer = document.getElementById('questionContainer');
+        const celebrationContainer = document.getElementById('celebrationContainer');
+        const rotatingHeartsContainer = document.getElementById('rotatingHearts');
+
+        // Create floating hearts
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            document.getElementById('floatingHearts').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 10000);
+        }
+
+        setInterval(createFloatingHeart, 1000);
+
+        // No button hover effect - detect when mouse gets near
+        noBtn.addEventListener('mouseenter', function() {
+            moveNoButton();
+        });
+        
+        // Also move on mouseover for better detection
+        document.addEventListener('mousemove', function(e) {
+            const btnRect = noBtn.getBoundingClientRect();
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            // Check if mouse is near the button (within 100px)
+            const distanceX = mouseX - (btnRect.left + btnRect.width / 2);
+            const distanceY = mouseY - (btnRect.top + btnRect.height / 2);
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            
+            if (distance < 100) {
+                moveNoButton();
+            }
+        });
+        
+        function moveNoButton() {
+            noClickCount++;
+            
+            // Make button float on first hover
+            if (noClickCount === 1) {
+                noBtn.classList.add('floating');
+            }
+            
+            // Move the No button anywhere on the page
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            
+            // Random position within window bounds
+            const randomX = Math.random() * (windowWidth - btnWidth - 20) + 10;
+            const randomY = Math.random() * (windowHeight - btnHeight - 20) + 10;
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+            
+            // Change No button text
+            noBtn.textContent = noButtonTexts[Math.min(noClickCount, noButtonTexts.length - 1)];
+            
+            // Change message
+            messageIndex = (messageIndex + 1) % messages.length;
+            messageEl.textContent = messages[messageIndex];
+            messageEl.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                messageEl.style.transform = 'scale(1)';
+            }, 300);
+        }
+
+        // Yes button click
+        yesBtn.addEventListener('click', function() {
+            questionContainer.classList.add('hide');
+            document.body.classList.add('celebration');
+            
+            setTimeout(() => {
+                celebrationContainer.classList.add('show');
+                rotatingHeartsContainer.classList.add('show');
+                startCelebration();
+            }, 500);
+        });
+
+        // Create rotating hearts
+        const heartPositions = [
+            { top: '0%', left: '50%' },
+            { top: '25%', left: '93%' },
+            { top: '75%', left: '93%' },
+            { top: '100%', left: '50%' },
+            { top: '75%', left: '7%' },
+            { top: '25%', left: '7%' }
+        ];
+
+        heartPositions.forEach(pos => {
+            const heart = document.createElement('span');
+            heart.textContent = '💕';
+            heart.style.top = pos.top;
+            heart.style.left = pos.left;
+            heart.style.transform = 'translate(-50%, -50%)';
+            rotatingHeartsContainer.appendChild(heart);
+        });
+
+        // Celebration functions
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            confetti.style.backgroundColor = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'][Math.floor(Math.random() * 5)];
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), 5000);
+        }
+
+        function createFallingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'falling-heart';
+            heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = '-50px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 50 + '%';
+            sparkle.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 3000);
+        }
+
+        function startCelebration() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(createConfetti, i * 50);
+            }
+
+            setInterval(() => {
+                createConfetti();
+                createFallingHeart();
+                createSparkle();
+            }, 300);
+        }
+    </script>
+</body>
+</html>

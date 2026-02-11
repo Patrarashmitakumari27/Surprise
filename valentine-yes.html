@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You said YES! 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .celebration-container {
+            text-align: center;
+            color: white;
+            z-index: 10;
+            position: relative;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .big-heart {
+            font-size: 120px;
+            animation: heartPulse 1s ease-in-out infinite;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .love-message {
+            font-size: 1.5em;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .special-note {
+            font-size: 1.2em;
+            font-style: italic;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeInLate 1s ease-in 1.5s both;
+        }
+
+        @keyframes fadeInLate {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f0f;
+            position: absolute;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Hearts falling animation */
+        .falling-heart {
+            position: fixed;
+            font-size: 40px;
+            animation: heartFall linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes heartFall {
+            to {
+                transform: translateY(100vh) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnimation linear forwards;
+            box-shadow: 0 0 10px white;
+        }
+
+        @keyframes sparkleAnimation {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .rotating-hearts {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            transform: translate(-50%, -50%);
+            animation: rotate 10s linear infinite;
+            z-index: -1;
+        }
+
+        .rotating-hearts span {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.3;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="rotating-hearts" id="rotatingHearts"></div>
+    
+    <div class="celebration-container">
+        <div class="big-heart">❤️</div>
+        <h1>Yay! You said YES! 🎉</h1>
+        <div class="love-message">
+            My dearest love,<br><br>
+            I knew you couldn't resist! 😊 You've made this Valentine's Day absolutely perfect. 
+            Every moment with you is a treasure, and I'm so grateful to have you as my Valentine 
+            today and every day. You make my heart smile, my world brighter, and my life complete.<br><br>
+            I love you more than words can express, more than all the stars in the sky, 
+            and more than all the chocolate in the world! 🍫✨<br><br>
+            Here's to us, to our love, and to many more beautiful moments together! 💕
+        </div>
+        <div class="special-note">
+            Forever yours, with all my love 💖<br>
+            Happy Valentine's Day, my darling! 🌹
+        </div>
+    </div>
+
+    <script>
+        // Create rotating hearts
+        const rotatingContainer = document.getElementById('rotatingHearts');
+        const heartPositions = [
+            { top: '0%', left: '50%' },
+            { top: '25%', left: '93%' },
+            { top: '75%', left: '93%' },
+            { top: '100%', left: '50%' },
+            { top: '75%', left: '7%' },
+            { top: '25%', left: '7%' }
+        ];
+
+        heartPositions.forEach(pos => {
+            const heart = document.createElement('span');
+            heart.textContent = '💕';
+            heart.style.top = pos.top;
+            heart.style.left = pos.left;
+            heart.style.transform = 'translate(-50%, -50%)';
+            rotatingContainer.appendChild(heart);
+        });
+
+        // Create confetti
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            confetti.style.backgroundColor = ['#ff6b6b', '#feca57', '#48dbfb', '#ff9ff3', '#54a0ff'][Math.floor(Math.random() * 5)];
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => confetti.remove(), 5000);
+        }
+
+        // Create falling hearts
+        function createFallingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'falling-heart';
+            heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = '-50px';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 6000);
+        }
+
+        // Create sparkles
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 50 + '%';
+            sparkle.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 3000);
+        }
+
+        // Initial burst of confetti
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createConfetti, i * 50);
+        }
+
+        // Continuous animations
+        setInterval(createConfetti, 200);
+        setInterval(createFallingHeart, 300);
+        setInterval(createSparkle, 400);
+    </script>
+</body>
+</html>
